@@ -1,0 +1,86 @@
+The provided code demonstrates the use of the Scatter and Gather collective operations in the Message Passing Interface (MPI) library for parallel computing. Here's a breakdown of the code:
+
+Importing the required packages and classes:
+java
+Copy code
+import mpi.MPI;
+import mpi.*;
+These lines import the necessary classes and interfaces from the MPI library to work with MPI operations.
+
+Initializing the MPI environment:
+java
+Copy code
+MPI.Init(args);
+This line initializes the MPI execution environment. It initializes MPI and sets up the necessary communication structures.
+
+Getting the rank and size of the MPI communicator:
+java
+Copy code
+int rank = MPI.COMM_WORLD.Rank();
+int size = MPI.COMM_WORLD.Size();
+The rank variable represents the rank (process identifier) of the current process, while the size variable represents the total number of processes in the communicator (in this case, MPI.COMM_WORLD).
+
+Setting up variables for data distribution:
+java
+Copy code
+int unitsize = 5; // Number of elements each process will receive
+int root = 0; // The rank of the root process (process 0)
+int send_buffer[] = null; // Buffer for sending data
+send_buffer = new int[unitsize * size]; // Initialize the send buffer
+int recieve_buffer[] = new int[unitsize]; // Buffer for receiving data
+int new_recieve_buffer[] = new int[size]; // Buffer for gathering data
+These variables define the size of each process's data portion, the root process, and the send/receive buffers for data transfer and gathering.
+
+Setting data for distribution:
+java
+Copy code
+if(rank == root) {
+    int total_elements = unitsize * size;
+    System.out.println("Enter " + total_elements + " elements");
+    for(int i = 0; i < total_elements; i++) {
+        System.out.println("Element " + i + "\t = " + i);
+        send_buffer[i] = i;
+    }
+}
+In this section, the root process prompts the user to enter the data elements. Each process will receive a portion of this data.
+
+Scatter data to processes:
+java
+Copy code
+MPI.COMM_WORLD.Scatter(
+    send_buffer,
+    0,
+    unitsize,
+    MPI.INT,
+    recieve_buffer,
+    0,
+    unitsize,
+    MPI.INT,
+    root
+);
+The Scatter operation divides the data from the root process and sends a portion to each process. Here, the send buffer (send_buffer) is divided into equal parts and scattered to each process. Each process receives a portion into its own receive buffer (recieve_buffer).
+
+Calculating the sum at non-root processes:
+java
+Copy code
+for(int i = 1; i < unitsize; i++) {
+    recieve_buffer[0] += recieve_buffer[i];
+}
+System.out.println("Intermediate sum at process " + rank + " is " + recieve_buffer[0]);
+Each non-root process calculates the sum of the received elements and stores it in the first index of its receive buffer. It then displays the intermediate sum for each process.
+
+Gather data from processes:
+java
+Copy code
+MPI.COMM_WORLD.Gather(
+    recieve_buffer,
+    0,
+    1,
+    MPI.INT,
+    new_recieve_buffer,
+    0,
+    1,
+    MPI.INT,
+    root
+);
+The Gather operation collects the data from all processes and gathers it at the root process. Here, each process contributes its sum (stored in the first index of its receive buffer) to the gather operation. The gathered data is stored in the `new_recieve_buffer

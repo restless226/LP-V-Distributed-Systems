@@ -1,0 +1,26 @@
+Enter no of nodes in the ring:
+5
+Ring formed is as below:
+0->1->2->3->0
+Enter sender:
+3
+Enter receiver:
+2
+Enter message:
+hello
+Passing token from node 0 to sender node...
+At node 0
+At node 1
+At node 2
+
+At sender node: 3 Sending The message: hello
+
+message: hello Forwarded By: 3
+message: hello Forwarded By: 4
+message: hello Forwarded By: 0
+message: hello Forwarded By: 1
+Receiver: 2 Received The message: hello
+
+Do You Want To Send message Again? If YES Enter 1, If NO Enter 0: 0
+
+Process finished with exit code 0
