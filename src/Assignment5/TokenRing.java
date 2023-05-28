@@ -1,4 +1,4 @@
-package A5;
+package Assignment5;
 
 import java.util.*;
 
