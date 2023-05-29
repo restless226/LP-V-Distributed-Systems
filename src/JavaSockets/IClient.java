@@ -20,6 +20,7 @@ public class IClient {
             Scanner sc1 = new Scanner(clientSocket.getInputStream());
             int receivedNumber = sc1.nextInt();
             System.out.println("receivedNumber from IServer after squaring: " + receivedNumber);
+            clientSocket.close();
         } catch (Exception e) {
             System.out.println("Exception at IClient: " + e);
         }

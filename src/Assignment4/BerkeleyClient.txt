@@ -1,0 +1,15 @@
+clientTime at client before sending: 1685333944456
+Time received at server's end: Mon May 29 09:49:04 IST 2023
+clientTime at client before sending: 1685333944489
+Time received at server's end: Mon May 29 09:49:04 IST 2023
+clientTime at client before sending: 1685333944490
+Time received at server's end: Mon May 29 09:49:04 IST 2023
+clientTime at client before sending: 1685333944492
+Time received at server's end: Mon May 29 09:49:04 IST 2023
+clientTime at client before sending: 1685333944493
+Time received at server's end: Mon May 29 09:49:04 IST 2023
+clientTime at client before sending: 1685333944495
+Time received at server's end: Thu Jan 01 05:29:59 IST 1970
+Adjusted time at client's end: 1685333944484
+
+Process finished with exit code 0

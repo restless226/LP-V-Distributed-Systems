@@ -20,6 +20,7 @@ public class IServer {
 
             PrintStream p = new PrintStream(acceptedSocket.getOutputStream());
             p.println(result);
+            serverSocket.close();
         } catch (Exception e) {
             System.out.println("Exception at IServer: " + e);
         }
