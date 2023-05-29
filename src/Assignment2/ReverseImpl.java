@@ -1,5 +1,9 @@
 package Assignment2;
 
+// ReversePOA is a Portable Object Adapter (POA) class
+// that provides the base implementation for the Reverse interface.
+// The POA is designed to construct object implementations
+// that are portable between different ORB products.
 import ReverseModule.ReversePOA;
 
 class ReverseImpl extends ReversePOA {

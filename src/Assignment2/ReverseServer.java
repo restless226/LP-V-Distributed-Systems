@@ -1,9 +1,9 @@
 package Assignment2;
 
 import ReverseModule.*;
+import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 
 class ReverseServer {
@@ -17,13 +17,13 @@ class ReverseServer {
             rootPOA.the_POAManager().activate();
 
             // creating the calculator object
-            ReverseImpl rvr = new ReverseImpl();
+            ReverseImpl reverseImpl = new ReverseImpl();
 
             // get the object reference from the servant class
-            org.omg.CORBA.Object ref = rootPOA.servant_to_reference(rvr);
+            org.omg.CORBA.Object servantRef = rootPOA.servant_to_reference(reverseImpl);
 
             System.out.println("Step1");
-            Reverse h_ref = ReverseHelper.narrow(ref);
+            Reverse reverseHelper = ReverseHelper.narrow(servantRef);
 
             System.out.println("Step2");
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
@@ -34,7 +34,7 @@ class ReverseServer {
             System.out.println("Step4");
             String name = "Reverse";
             NameComponent path[] = ncRef.to_name(name);
-            ncRef.rebind(path, h_ref);
+            ncRef.rebind(path, reverseHelper);
 
             System.out.println("Reverse Server reading and waiting....");
             orb.run();
