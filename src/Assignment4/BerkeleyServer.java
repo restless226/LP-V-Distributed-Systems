@@ -9,41 +9,26 @@ public class BerkeleyServer {
         try {
             ServerSocket serverSocket = new ServerSocket(12345);
             List<Long> clientTimes = new ArrayList<>();
-
             System.out.println("Server is running. Waiting for clients...");
-
-            boolean flag = true;
+            boolean stop = true;
             while (true) {
                 Socket socket = serverSocket.accept();
-
                 DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-
                 long clientTime = inputStream.readLong();
                 System.out.println("clientTime received at Server's end for client " + clientTimes.size() + " is: " + clientTime);
-
-
-                if (clientTime == -1) flag = false;
+                if (clientTime == -1) stop = false;
                 else clientTimes.add(clientTime);
-
                 outputStream.writeUTF(String.valueOf(new Date(clientTime)));
-
                 socket.close();
-
-                if (!flag) break;
+                if (!stop) break;
             }
-
             long sum = 0;
-            for (long time : clientTimes) {
-                sum += time;
-            }
+            for (long time : clientTimes) sum += time;
             long averageTime = sum / clientTimes.size();
             Socket socket = serverSocket.accept();
-
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-
             outputStream.writeLong(averageTime);
-
             socket.close();
             serverSocket.close();
         } catch (Exception e) {
