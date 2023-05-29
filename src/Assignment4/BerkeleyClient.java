@@ -1,9 +1,8 @@
 package Assignment4;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.Socket;
-import java.util.Scanner;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class BerkeleyClient {
     public static void main(String[] args) {
@@ -13,7 +12,7 @@ public class BerkeleyClient {
         try {
             // Connect to the server
             for (int i = 0; i < n + 1; i++) {
-                Socket socket = new Socket("localhost", 12345);
+                Socket socket = new Socket("127.0.0.1", 12345);
 
                 DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());

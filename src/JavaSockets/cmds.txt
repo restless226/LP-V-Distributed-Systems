@@ -1,4 +1,4 @@
-javac SocketServer.java
-java SocketServer
-javac SocketClient.java
-java SocketClient
+javac IServer.java
+java IServer
+javac IClient.java
+java IClient

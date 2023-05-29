@@ -101,7 +101,6 @@ public class Ring {
         System.out.println("Enter number of processes: ");
         int n = sc.nextInt();
         Ring ring = new Ring(n);
-
         while (choice < 5) {
             System.out.println("***********Menu***********");
             System.out.println("1. Deactivate a process");

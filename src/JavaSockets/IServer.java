@@ -1,28 +1,25 @@
 package JavaSockets;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class IServer {
-    public static void main(String[] args) throws UnknownHostException, IOException {
+    public static void main(String[] args) {
         try {
-            ServerSocket serverSocket = new ServerSocket(1342);
-            System.out.println("Server running at 1342");
-            Socket acceptedSocket = serverSocket.accept();
-
-            Scanner sc = new Scanner(acceptedSocket.getInputStream());
-            int number;
-            number = sc.nextInt();
-            System.out.println("received number from client as: " + number);
-
+            ServerSocket serverSocket = new ServerSocket(3000);
+            Socket socket = serverSocket.accept();
+            DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+            int number = inputStream.readInt();
+            System.out.println("number: " + number);
             int result = number * number;
-
-            PrintStream p = new PrintStream(acceptedSocket.getOutputStream());
-            p.println(result);
+            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+            outputStream.writeInt(result);
+            socket.close();
             serverSocket.close();
         } catch (Exception e) {
-            System.out.println("Exception at IServer: " + e);
+            e.printStackTrace();
         }
     }
 }

@@ -38,3 +38,65 @@ The election method is responsible for initiating the election process in the ri
 10.	Once the loop completes, the method prints the message indicating the elected coordinator, which is the process with the highest ID among the active processes.
 11.	Finally, the method updates the coordinator variable with the ID of the elected coordinator, making it the new coordinator.
 In summary, the election method performs the election algorithm in the ring network. It starts with an initiator process and passes a token from process to process, evaluating their IDs to select the process with the highest ID as the new coordinator. The method ensures that even if the current coordinator becomes inactive, a new coordinator is elected among the active processes.
+
+Enter number of processes:
+5
+Process 5 is set as initial coordinator
+***********Menu***********
+1. Deactivate a process
+2. Ping coordinator
+3. View Ring
+4. Election
+5. Exit
+**************************
+Enter Choice :
+1
+Enter process ID :
+3
+Process 3 is deactivated successfully.
+
+***********Menu***********
+1. Deactivate a process
+2. Ping coordinator
+3. View Ring
+4. Election
+5. Exit
+**************************
+Enter Choice :
+3
+Following are the active processes in the ring:
+1
+2
+3
+5
+
+***********Menu***********
+1. Deactivate a process
+2. Ping coordinator
+3. View Ring
+4. Election
+5. Exit
+**************************
+Enter Choice :
+4
+Enter process ID for election initiator
+2
+
+Election initiator : 3
+Token at process 4
+Token at process 5
+Token at process 1
+Token at process 2
+Elected coordinator : 5
+
+***********Menu***********
+1. Deactivate a process
+2. Ping coordinator
+3. View Ring
+4. Election
+5. Exit
+**************************
+Enter Choice :
+5
+
+Process finished with exit code 0

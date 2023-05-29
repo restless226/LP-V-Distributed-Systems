@@ -1,12 +1,8 @@
 package Assignment4;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Date;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class BerkeleyServer {
     public static void main(String[] args) {
@@ -17,7 +13,7 @@ public class BerkeleyServer {
             System.out.println("Server is running. Waiting for clients...");
 
             boolean flag = true;
-            while (flag) {
+            while (true) {
                 Socket socket = serverSocket.accept();
 
                 DataInputStream inputStream = new DataInputStream(socket.getInputStream());
