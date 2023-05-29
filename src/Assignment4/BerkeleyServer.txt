@@ -1,9 +1,9 @@
 Server is running. Waiting for clients...
-clientTime received at Server's end: 1685333944456
-clientTime received at Server's end: 1685333944489
-clientTime received at Server's end: 1685333944490
-clientTime received at Server's end: 1685333944492
-clientTime received at Server's end: 1685333944493
-clientTime received at Server's end: -1
+clientTime received at Server's end for client 0 is: 1685334497314
+clientTime received at Server's end for client 1 is: 1685334497366
+clientTime received at Server's end for client 2 is: 1685334497367
+clientTime received at Server's end for client 3 is: 1685334497368
+clientTime received at Server's end for client 4 is: 1685334497370
+clientTime received at Server's end for client 5 is: -1
 
 Process finished with exit code 0

@@ -1,15 +1,23 @@
-clientTime at client before sending: 1685333944456
-Time received at server's end: Mon May 29 09:49:04 IST 2023
-clientTime at client before sending: 1685333944489
-Time received at server's end: Mon May 29 09:49:04 IST 2023
-clientTime at client before sending: 1685333944490
-Time received at server's end: Mon May 29 09:49:04 IST 2023
-clientTime at client before sending: 1685333944492
-Time received at server's end: Mon May 29 09:49:04 IST 2023
-clientTime at client before sending: 1685333944493
-Time received at server's end: Mon May 29 09:49:04 IST 2023
-clientTime at client before sending: 1685333944495
-Time received at server's end: Thu Jan 01 05:29:59 IST 1970
-Adjusted time at client's end: 1685333944484
+Enter no of clients:
+5
+clientTime at client 0 before sending: 1685334497314
+acknowledgment for client 0 is: Mon May 29 09:58:17 IST 2023
+
+clientTime at client 1 before sending: 1685334497366
+acknowledgment for client 1 is: Mon May 29 09:58:17 IST 2023
+
+clientTime at client 2 before sending: 1685334497367
+acknowledgment for client 2 is: Mon May 29 09:58:17 IST 2023
+
+clientTime at client 3 before sending: 1685334497368
+acknowledgment for client 3 is: Mon May 29 09:58:17 IST 2023
+
+clientTime at client 4 before sending: 1685334497370
+acknowledgment for client 4 is: Mon May 29 09:58:17 IST 2023
+
+clientTime at client 5 before sending: 1685334497371
+acknowledgment for client 5 is: Thu Jan 01 05:29:59 IST 1970
+
+Adjusted time at client's end: 1685334497357
 
 Process finished with exit code 0

@@ -24,13 +24,13 @@ public class BerkeleyServer {
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
                 long clientTime = inputStream.readLong();
-                System.out.println("clientTime received at Server's end: " + clientTime);
+                System.out.println("clientTime received at Server's end for client " + clientTimes.size() + " is: " + clientTime);
 
 
                 if (clientTime == -1) flag = false;
                 else clientTimes.add(clientTime);
 
-                outputStream.writeUTF("Time received at server's end: " + new Date(clientTime));
+                outputStream.writeUTF(String.valueOf(new Date(clientTime)));
 
                 socket.close();
 
