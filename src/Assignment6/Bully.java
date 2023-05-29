@@ -6,7 +6,7 @@ public class Bully {
     boolean[] state; // to represent the state of each process.
     int coordinator; // to store the index of the current coordinator.
 
-    Bully(int n) {
+    Bully(int n)    {
         // [IMPORTANT] the code assumes that the initial coordinator is process n - 1.
         this.coordinator = n - 1;
         this.state = new boolean[n];
@@ -63,7 +63,7 @@ public class Bully {
                     System.out.println("election message sent from process " + processId + " to process" + (i + 1));
                 }
                 for (int i = n - 1; i >= processId; i--) {
-                    if (state[i]) {
+                    if (this.state[i]) {
                         this.coordinator = i;
                         System.out.println("process " + i + " has become new coordinator");
                         System.out.println("sending coordinator message from process" + i + " to all processes.");
@@ -79,7 +79,7 @@ public class Bully {
     public void sendCoordinatorMessage(int processId, int n) {
         if (this.state[processId]) {
             System.out.println("Process " + processId + " sends coordinator message to Process " + this.coordinator);
-            if (!this.state[coordinator]) election(processId, n);
+            if (!this.state[coordinator]) this.election(processId, n);
         } else {
             System.out.println("Unable to send message as process " + processId + " is down.");
         }

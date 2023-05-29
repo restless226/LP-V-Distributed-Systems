@@ -23,27 +23,27 @@ public class Ring {
     //  It checks if the process is already inactive and deactivates it if it's active.
     //  It keeps track of the count of inactive processes.
     public void deactivateProcess(int id) {
-        if (id > n || id < 0) {
+        if (id >= n || id < 0) {
             System.out.println("Invalid Process ID");
             return;
         }
-        if (!processState[id]) {
+        if (!this.processState[id]) {
             System.out.println("Process is already inactive");
         } else {
-            processState[id] = false;
+            this.processState[id] = false;
             System.out.println("Process " + id + " is deactivated successfully.");
-            inactiveCount += 1;
+            this.inactiveCount += 1;
         }
     }
 
     public void viewRing() {
-        if (this.inactiveCount == n) {
+        if (this.inactiveCount == this.n) {
             System.out.println("All processes are inactive at the moment...");
             return;
         }
         System.out.println("Following are the active processes in the ring: ");
-        for (int i = 0; i < n; i++) {
-            if (processState[i]) System.out.println(i + 1);
+        for (int i = 0; i < this.n; i++) {
+            if (this.processState[i]) System.out.println(i + 1);
         }
     }
 
@@ -56,7 +56,7 @@ public class Ring {
             return;
         }
         int currentCoordinator = id; // assuming the initiator is the current coordinator candidate.
-        int token = (id + 1) % n; // next process to receive the election message.
+        int token = (id + 1) % (this.n); // next process to receive the election message.
         System.out.println("\nElection initiator : " + (id + 1));
         //	Election algorithm
         while (token != id) {
