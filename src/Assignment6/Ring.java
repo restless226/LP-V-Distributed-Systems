@@ -24,13 +24,13 @@ public class Ring {
     //  It keeps track of the count of inactive processes.
     public void deactivateProcess(int id) {
         if (id > n || id < 0) {
-            System.out.println("Invalid ID");
+            System.out.println("Invalid Process ID");
             return;
         }
-        if (!processState[id - 1]) {
+        if (!processState[id]) {
             System.out.println("Process is already inactive");
         } else {
-            processState[id - 1] = false;
+            processState[id] = false;
             System.out.println("Process " + id + " is deactivated successfully.");
             inactiveCount += 1;
         }
@@ -55,22 +55,17 @@ public class Ring {
             this.coordinator = -1;
             return;
         }
-        // Subtract 1 from the ID to match the index of the process in the process_state array.
-        id = id - 1;
         int currentCoordinator = id; // assuming the initiator is the current coordinator candidate.
-        int token = (id + 1) % n; //  next process to receive the election message.
+        int token = (id + 1) % n; // next process to receive the election message.
         System.out.println("\nElection initiator : " + (id + 1));
         //	Election algorithm
         while (token != id) {
             System.out.println("Token at process " + (token + 1));
-            if (this.processState[token]) {
-                //  If the token process has a higher ID,
-                //  it updates currentCoordinator to the ID of the token process.
-                if (token > currentCoordinator) {
-                    currentCoordinator = token;
-                }
+            if (this.processState[token] && token > currentCoordinator) {
+                //  If the token process has a higher ID update currentCoordinator to the ID of the token process.
+                currentCoordinator = token;
             }
-            token = (token + 1) % this.n;
+            token = (token + 1) % (this.n);
         }
         System.out.println("Elected coordinator : " + (currentCoordinator + 1));
         this.coordinator = currentCoordinator;
@@ -100,10 +95,6 @@ public class Ring {
         }
     }
 
-    public void setCoordinator(int id) {
-        this.coordinator = id;
-    }
-
     public static void main(String[] args) {
         int choice = 0, id;
         Scanner sc = new Scanner(System.in);
@@ -117,8 +108,7 @@ public class Ring {
             System.out.println("2. Ping coordinator");
             System.out.println("3. View Ring");
             System.out.println("4. Election");
-            System.out.println("5. Set Coordinator");
-            System.out.println("6. Exit");
+            System.out.println("5. Exit");
             System.out.println("**************************");
             System.out.println("Enter Choice : ");
             choice = sc.nextInt();
@@ -142,11 +132,6 @@ public class Ring {
                     ring.election(id);
                     break;
                 case 5:
-                    System.out.println("Enter process ID to set as coordinator");
-                    id = sc.nextInt();
-                    ring.setCoordinator(id);
-                    break;
-                case 6:
                     System.exit(0);
                 default:
                     System.out.println("Please make another choice");

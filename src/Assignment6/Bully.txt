@@ -1,0 +1,175 @@
+Enter no of processes: 
+5
+Initially all 5 processes are active
+Process 4 is the coordinator
+
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+4
+Active processes are:
+
+P0 P1 P2 P3 P4 
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+2
+Enter process id to perform down operation: 
+3
+process 3 is down successfully.
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+4
+Active processes are:
+
+P0 P1 P2 P4 
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+2
+Enter process id to perform down operation: 
+3
+process 3 is already down.
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+3
+Enter process id which will conduct election: 
+2
+There is no need for election as current coordinator process is up
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+6
+Process 4 is coordinator process as of now
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+2
+Enter process id to perform down operation: 
+4
+process 4 is down successfully.
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+6
+Unable to send message as coordinator process is down
+Please initiate an election to elect new coordinator
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+5
+Enter process id which will send a message to coordinator: 
+2
+Process 2 sends coordinator message to Process 4
+As the coordinator process is down process with processId proceeds with an election process
+process 2 is going to hold an election
+election message sent from process 2 to process4
+election message sent from process 2 to process5
+process 2 has become new coordinator
+sending coordinator message from process2 to all processes.
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+3
+Enter process id which will conduct election: 
+1
+There is no need for election as current coordinator process is up
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+4
+Active processes are:
+
+P0 P1 P2 
+..................
+1. Up a process.
+2. Down a process
+3. Conduct election
+4. View Bully
+5. Send a message to coordinator process
+6. Get coordinator process
+7. Exit
+..................
+Enter you choice from above list: 
+7
+
+Process finished with exit code 0

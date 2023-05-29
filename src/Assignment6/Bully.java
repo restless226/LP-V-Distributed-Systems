@@ -3,110 +3,151 @@ package Assignment6;
 import java.util.Scanner;
 
 public class Bully {
-    static boolean[] state = new boolean[5]; // to represent the state of each process.
-    // [IMPORTANT] the code assumes that the initial coordinator is process 5.
+    boolean[] state; // to represent the state of each process.
     int coordinator; // to store the index of the current coordinator.
 
-    // The up method is responsible for bringing a process up
-    // and initiating the election process if necessary.
-    public static void up(int process) {
-        if (state[process - 1]) {
-            System.out.println("process " + process + " is already up");
-        } else {
-            state[process - 1] = true;
-            System.out.println("process " + process + " is going to hold an election...");
-            // send election messages to the processes with higher indices.
-            for (int i = process; i < 5; i++) {
-                System.out.println("election message sent from process " + process + " to process" + (i + 1));
-            }
-            // It enters another loop to find the first process with a higher index (i) that is already up.
-            // It starts from currentProcess + 1 and continues until process 5.
-            // When it finds such a process, it displays a message indicating
-            // that an alive message is sent from that process to the currentProcess,
-            // and the loop is terminated using break.
-
-            // The alive message sent back confirms the process's availability
-            // and ensures that it becomes the coordinator.
-            for (int i = process + 1; i <= 5; i++) {
-                if (state[i - 1]) {
-                    System.out.println("alive message send from process " + i + " to process " + process);
-                    break;
-                }
-            }
+    Bully(int n) {
+        // [IMPORTANT] the code assumes that the initial coordinator is process n - 1.
+        this.coordinator = n - 1;
+        this.state = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            state[i] = true;
         }
     }
 
-    public static void down(int process) {
-        if (!state[process - 1]) {
-            System.out.println("process " + process + " is already down.");
+    public void viewBully(int n) {
+        System.out.println("Active processes are:\n");
+        for (int i = 0; i < n; i++) {
+            if (this.state[i]) System.out.print("P" + i + " ");
+        }
+        System.out.println();
+    }
+
+    public void viewInitialBully(int n) {
+        System.out.println("Initially all " + n + " processes are active");
+        System.out.println("Process " + (n - 1) + " is the coordinator\n");
+    }
+
+    // The up method is responsible for bringing a process up
+    // and initiating the election process if necessary.
+    public void up(int processId, int n) {
+        if (this.state[processId]) {
+            System.out.println("process " + processId + " is already up");
         } else {
-            state[process - 1] = false;
+            this.state[processId] = true;
+            System.out.println("process " + processId + " is up successfully.");
+            election(processId, n);
+        }
+    }
+
+    public void down(int processId) {
+        if (!this.state[processId]) {
+            System.out.println("process " + processId + " is already down.");
+        } else {
+            this.state[processId] = false;
+            System.out.println("process " + processId + " is down successfully.");
         }
     }
 
     // responsible for sending a message from a process to initiate an election if necessary.
-    public static void sendMessages(int process) {
-        if (state[process - 1]) {
-            if (state[4]) {
-                System.out.println("message can be sent since a coordinator is already present");
+    public void election(int processId, int n) {
+        if (this.state[processId]) {
+            if (this.state[this.coordinator]) {
+                System.out.println("There is no need for election as current coordinator process is up");
             } else {
-                // As the coordinator is down proceed with an election process
-                System.out.println("process " + process + " is going to hold an election");
-                for (int i = process; i < 5; i++) {
-                    System.out.println("election message sent from process " + process + " to process" + (i + 1));
+                // As the coordinator process is down process with processId proceeds with an election process
+                System.out.println("As the coordinator process is down process with processId proceeds with an " +
+                        "election process");
+                System.out.println("process " + processId + " is going to hold an election");
+                for (int i = processId + 1; i < n; i++) {
+                    System.out.println("election message sent from process " + processId + " to process" + (i + 1));
                 }
-
-                for (int i = 5; i >= process; i--) {
-                    if (state[i - 1]) {
+                for (int i = n - 1; i >= processId; i--) {
+                    if (state[i]) {
+                        this.coordinator = i;
+                        System.out.println("process " + i + " has become new coordinator");
                         System.out.println("sending coordinator message from process" + i + " to all processes.");
                         break;
                     }
                 }
             }
         } else {
-            System.out.println("Unable to send a message as process " + process + " is down.");
+            System.out.println("Unable to send a message as process " + processId + " is down.");
+        }
+    }
+
+    public void sendCoordinatorMessage(int processId, int n) {
+        if (this.state[processId]) {
+            System.out.println("Process " + processId + " sends coordinator message to Process " + this.coordinator);
+            if (!this.state[coordinator]) election(processId, n);
+        } else {
+            System.out.println("Unable to send message as process " + processId + " is down.");
+        }
+    }
+
+    public void getCoordinator() {
+        if (this.state[coordinator]) {
+            System.out.println("Process " + this.coordinator + " is coordinator process as of now");
+        } else {
+            System.out.println("Unable to send message as coordinator process is down");
+            System.out.println("Please initiate an election to elect new coordinator");
         }
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int choice = -1;
-        int process;
-        for (int i = 0; i < 5; i++) {
-            state[i] = true;
-        }
-        System.out.println("5 active process are:");
-        System.out.println("Process up = p1 p2 p3 p4 p5");
-        System.out.println("Process 5 is the coordinator");
-        do {
-            System.out.println(".........");
+        Scanner scanner = new Scanner(System.in);
+        int processId;
+
+        System.out.println("Enter no of processes: ");
+        int n = scanner.nextInt();
+        Bully bully = new Bully(n);
+
+        bully.viewInitialBully(n);
+
+        while (true) {
+            System.out.println("..................");
             System.out.println("1. Up a process.");
             System.out.println("2. Down a process");
-            System.out.println("3. Send a message");
-            System.out.println("4. Exit");
-            choice = sc.nextInt();
+            System.out.println("3. Conduct election");
+            System.out.println("4. View Bully");
+            System.out.println("5. Send a message to coordinator process");
+            System.out.println("6. Get coordinator process");
+            System.out.println("7. Exit");
+            System.out.println("..................");
+
+            System.out.println("Enter you choice from above list: ");
+            int choice = scanner.nextInt();
+
             switch (choice) {
                 case 1:
                     System.out.println("Enter process id to perform up operation: ");
-                    process = sc.nextInt();
-                    if (process == 5) {
-                        System.out.println("process 5 is coordinator");
-                        state[4] = true;
-                    } else {
-                        up(process);
-                    }
+                    processId = scanner.nextInt();
+                    bully.up(processId, n);
                     break;
                 case 2:
                     System.out.println("Enter process id to perform down operation: ");
-                    process = sc.nextInt();
-                    down(process);
+                    processId = scanner.nextInt();
+                    bully.down(processId);
                     break;
                 case 3:
-                    System.out.println("Enter process id which will send message: ");
-                    process = sc.nextInt();
-                    sendMessages(process);
+                    System.out.println("Enter process id which will conduct election: ");
+                    processId = scanner.nextInt();
+                    bully.election(processId, n);
                     break;
+                case 4:
+                    bully.viewBully(n);
+                    break;
+                case 5:
+                    System.out.println("Enter process id which will send a message to coordinator: ");
+                    processId = scanner.nextInt();
+                    bully.sendCoordinatorMessage(processId, n);
+                    break;
+                case 6:
+                    bully.getCoordinator();
+                    break;
+                case 7:
+                    System.exit(0);
             }
-        } while (choice != 4);
+        }
     }
 }
