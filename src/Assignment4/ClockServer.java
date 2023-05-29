@@ -1,57 +1,121 @@
 package Assignment4;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ClockServer {
-    public static void main(String[] args) {
-        try {
-            int port = 8080;
-            ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Clock server started...");
 
-            // Accept client connections
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("Client connected: " + clientSocket.getInetAddress().getHostAddress());
+    private static Map<String, ClientData> clientData = new HashMap<>();
 
-                // Start a new thread to handle client
-                Thread clientThread = new Thread(new ClientHandler(clientSocket));
-                clientThread.start();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static class ClientData {
+        private Date clockTime;
+        private long timeDifference;
+        private Socket connector;
+
+        public ClientData(Date clockTime, long timeDifference, Socket connector) {
+            this.clockTime = clockTime;
+            this.timeDifference = timeDifference;
+            this.connector = connector;
         }
     }
 
-    static class ClientHandler implements Runnable {
-        private Socket clientSocket;
+    public static void main(String[] args) {
+        int serverPort = 8080; // Server port
 
-        public ClientHandler(Socket socket) {
-            this.clientSocket = socket;
-        }
+        try {
+            ServerSocket serverSocket = new ServerSocket(serverPort);
+            System.out.println("Clock server started...");
 
-        @Override
-        public void run() {
-            try {
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            // Create a thread to accept connections from clients
+            Thread connectThread = new Thread(() -> {
+                try {
+                    while (true) {
+                        Socket clientSocket = serverSocket.accept();
 
-                while (true) {
-                    // Send current time to client
-                    String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-                    out.println(currentTime);
+                        // Create a thread to handle each client
+                        Thread clientThread = new Thread(() -> {
+                            try {
+                                while (true) {
+                                    byte[] buffer = new byte[1024];
+                                    int bytesRead = clientSocket.getInputStream().read(buffer);
 
-                    Thread.sleep(5000); // Sleep for 5 seconds
+                                    if (bytesRead > 0) {
+                                        String timeString = new String(buffer, 0, bytesRead);
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        Date clockTime = dateFormat.parse(timeString);
+                                        long timeDifference = System.currentTimeMillis() - clockTime.getTime();
+
+                                        String clientAddress =
+                                                clientSocket.getInetAddress().getHostAddress() + ":" + clientSocket.getPort();
+                                        clientData.put(clientAddress, new ClientData(clockTime, timeDifference,
+                                                clientSocket));
+
+                                        System.out.println("Client Data updated with: " + clientAddress);
+                                    }
+                                }
+                            } catch (IOException | ParseException e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                        clientThread.start();
+                        System.out.println(clientSocket.getInetAddress().getHostAddress() + " got connected " +
+                                "successfully");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            });
+
+            // Create a thread to synchronize all clocks
+            Thread synchronizeThread = new Thread(() -> {
+                try {
+                    while (true) {
+                        System.out.println("New synchronization cycle started.");
+                        System.out.println("Number of clients to be synchronized: " + clientData.size());
+
+                        if (!clientData.isEmpty()) {
+                            long totalDifference = 0;
+
+                            for (ClientData client : clientData.values()) {
+                                totalDifference += client.timeDifference;
+                            }
+
+                            long averageDifference = totalDifference / clientData.size();
+
+                            for (ClientData client : clientData.values()) {
+                                Date synchronizedTime = new Date(System.currentTimeMillis() + averageDifference);
+
+                                String timeString =
+                                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(synchronizedTime);
+                                client.connector.getOutputStream().write(timeString.getBytes());
+                                client.connector.getOutputStream().flush();
+                            }
+                        } else {
+                            System.out.println("No client data. Synchronization not applicable.");
+                        }
+
+                        System.out.println();
+
+                        Thread.sleep(5000); // Wait for 5 seconds
+                    }
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            // Start the connect and synchronize threads
+            connectThread.start();
+            synchronizeThread.start();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
